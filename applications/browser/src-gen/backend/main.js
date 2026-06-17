@@ -79,6 +79,10 @@ globalThis.extensionInfo = [
     {
         "name": "@theia/preferences",
         "version": "1.72.3"
+    },
+    {
+        "name": "@synlinea/skill-manager",
+        "version": "0.0.0"
     }
 ];
 

@@ -1,0 +1,15 @@
+{
+  "extends": "../../../tsconfig.json",
+  "compilerOptions": {
+    "rootDir": "..",
+    "noEmit": true,
+    "sourceMap": true,
+    "jsx": "react",
+    "types": ["node", "mocha", "chai"]
+  },
+  "include": [
+    "**/*.spec.ts",
+    "../src/node/**/*.ts",
+    "../src/common/**/*.ts"
+  ]
+}

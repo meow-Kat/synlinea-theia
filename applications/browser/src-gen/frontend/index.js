@@ -102,6 +102,7 @@ module.exports = (async () => {
         await load(container, import('@theia/messages/lib/browser/messages-frontend-module'));
         await load(container, import('@theia/userstorage/lib/browser/user-storage-frontend-module'));
         await load(container, import('@theia/preferences/lib/browser/preference-frontend-module'));
+        await load(container, import('@synlinea/skill-manager/lib/browser/skill-manager-frontend-module'));
         
         MonacoInit.init(container);
         ;

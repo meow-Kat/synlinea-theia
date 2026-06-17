@@ -4,7 +4,9 @@
 > Promote here only recurring / generalizable lessons; one-offs stay in decisions.md.
 
 ## Rules
-TBD — filled as recurring rules emerge (promoted from decisions.md or user feedback)
+- **Custom Theia extension packages must compile to `lib/` before the app build.** The app resolves `theiaExtensions` from each package's `lib/...`; if a package isn't `tsc`-built first, `theia build` fails with "Could not resolve @synlinea/...". Keep root `build:browser` running `build:packages` (compile all `packages/*`) first. → ADR-0002
+- **Capability discovery + relationship model is fixed in ADR-0002** — reuse those locations / data-model / Level-B rules in later cuts (subagents, toggle, Codex); don't re-invent per feature.
+- **AI runs via CLIs in the built-in terminal, not Theia's native AI.** Do not add `@theia/ai-*` (or `plugin-ext`) without an explicit plan; both are intentionally excluded. → ADR-0001
 
 <!-- example shape:
 ### Security — XSS / DOM-XSS

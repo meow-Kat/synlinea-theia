@@ -1,0 +1,39 @@
+{
+  "name": "@synlinea/skill-manager",
+  "version": "0.0.0",
+  "private": true,
+  "description": "Synlinea – Capability X-ray panel (Skills + Rules, Claude Code)",
+  "keywords": [
+    "theia-extension"
+  ],
+  "dependencies": {
+    "@theia/core": "1.72.3",
+    "@theia/editor": "1.72.3",
+    "@theia/workspace": "1.72.3",
+    "gray-matter": "^4.0.3",
+    "glob": "^10.3.16",
+    "tslib": "^2.8.1"
+  },
+  "devDependencies": {
+    "@types/chai": "^4.3.0",
+    "@types/mocha": "^10.0.0",
+    "@types/node": "^20.0.0",
+    "@types/react": "^18.3.0",
+    "chai": "^4.5.0",
+    "mocha": "^10.8.2",
+    "ts-node": "^10.9.2",
+    "typescript": "~5.5.0"
+  },
+  "theiaExtensions": [
+    {
+      "frontend": "lib/browser/skill-manager-frontend-module",
+      "backend": "lib/node/skill-manager-backend-module"
+    }
+  ],
+  "scripts": {
+    "build": "tsc -p tsconfig.json",
+    "clean": "rm -rf lib",
+    "test": "TS_NODE_PROJECT=test/tsconfig.json mocha --require ts-node/register --extension ts \"test/**/*.spec.ts\""
+  },
+  "main": "lib/index.js"
+}

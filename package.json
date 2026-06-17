@@ -7,8 +7,9 @@
     "packages/*"
   ],
   "scripts": {
-    "build": "npm run build:browser --workspace=applications/browser",
-    "build:browser": "npm run build:browser --workspace=applications/browser",
+    "build:packages": "npm run build --workspaces --if-present",
+    "build": "npm run build:packages && npm run build:browser --workspace=applications/browser",
+    "build:browser": "npm run build:packages && npm run build:browser --workspace=applications/browser",
     "start": "npm run start:browser --workspace=applications/browser",
     "start:browser": "npm run start:browser --workspace=applications/browser",
     "lint": "eslint . --max-warnings=0",

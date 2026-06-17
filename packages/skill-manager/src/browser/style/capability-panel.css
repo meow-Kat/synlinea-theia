@@ -1,0 +1,345 @@
+/* ── Capability Tree (left panel) ─────────────────────────────────────────── */
+
+.capability-tree-widget {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  user-select: none;
+}
+
+.capability-tree-search {
+  padding: 4px 8px;
+  border-bottom: 1px solid var(--theia-editorWidget-border, #454545);
+}
+
+.capability-search-input {
+  width: 100%;
+  box-sizing: border-box;
+  background: var(--theia-input-background, #3c3c3c);
+  color: var(--theia-input-foreground, #cccccc);
+  border: 1px solid var(--theia-input-border, #3c3c3c);
+  padding: 3px 6px;
+  font-size: 12px;
+}
+
+.capability-tree-body {
+  flex: 1;
+  overflow-y: auto;
+}
+
+.capability-layer {
+  margin-bottom: 4px;
+}
+
+.capability-layer-header {
+  padding: 4px 8px;
+  font-size: 11px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  color: var(--theia-sideBarSectionHeader-foreground, #bbb);
+  background: var(--theia-sideBarSectionHeader-background, #2a2a2a);
+}
+
+.capability-group-header {
+  display: flex;
+  align-items: center;
+  padding: 2px 8px 2px 16px;
+  cursor: pointer;
+  font-size: 12px;
+  color: var(--theia-sideBar-foreground, #cccccc);
+}
+
+.capability-group-header:hover {
+  background: var(--theia-list-hoverBackground, #2a2d2e);
+}
+
+.capability-expand-icon {
+  margin-right: 4px;
+  font-size: 11px;
+}
+
+.capability-group-label {
+  flex: 1;
+}
+
+.capability-group-count {
+  font-size: 11px;
+  color: var(--theia-descriptionForeground, #999);
+}
+
+.capability-item-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.capability-item-empty {
+  padding: 2px 8px 2px 32px;
+  font-size: 12px;
+  color: var(--theia-descriptionForeground, #999);
+  font-style: italic;
+}
+
+.capability-item {
+  display: flex;
+  align-items: center;
+  padding: 2px 8px 2px 32px;
+  cursor: pointer;
+  font-size: 12px;
+  color: var(--theia-sideBar-foreground, #cccccc);
+}
+
+.capability-item:hover {
+  background: var(--theia-list-hoverBackground, #2a2d2e);
+}
+
+.capability-item-selected {
+  background: var(--theia-list-activeSelectionBackground, #094771) !important;
+  color: var(--theia-list-activeSelectionForeground, #ffffff) !important;
+}
+
+.capability-item-name {
+  flex: 1;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.capability-item-trigger {
+  font-size: 10px;
+  color: var(--theia-descriptionForeground, #999);
+  margin-left: 4px;
+}
+
+/* ── Inspector (right panel) ──────────────────────────────────────────────── */
+
+.capability-inspector-widget {
+  padding: 12px;
+  font-size: 13px;
+  color: var(--theia-editor-foreground, #cccccc);
+}
+
+.capability-inspector-empty {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 100%;
+  color: var(--theia-descriptionForeground, #999);
+  font-style: italic;
+}
+
+.capability-inspector-content {
+  max-width: 800px;
+}
+
+.capability-inspector-header {
+  margin-bottom: 12px;
+}
+
+.capability-inspector-icon {
+  font-size: 20px;
+  margin-right: 8px;
+}
+
+.capability-inspector-name {
+  font-size: 18px;
+  font-weight: 600;
+}
+
+.capability-inspector-badges {
+  margin-top: 6px;
+  display: flex;
+  gap: 6px;
+  flex-wrap: wrap;
+}
+
+.capability-badge {
+  display: inline-block;
+  padding: 2px 8px;
+  border-radius: 10px;
+  font-size: 11px;
+  font-weight: 600;
+}
+
+.capability-badge-type-skill {
+  background: var(--theia-badge-background, #4d4d4d);
+  color: var(--theia-badge-foreground, #fff);
+}
+
+.capability-badge-type-rule {
+  background: #4a3f00;
+  color: #ffd700;
+}
+
+.capability-badge-source-global {
+  background: #003a4a;
+  color: #4fc3f7;
+}
+
+.capability-badge-source-project {
+  background: #1a3a00;
+  color: #a5d6a7;
+}
+
+.capability-badge-trigger {
+  background: var(--theia-inputValidation-infoBorder, #1a5fb4);
+  color: #fff;
+  font-family: monospace;
+}
+
+.capability-inspector-desc {
+  margin-top: 8px;
+  font-size: 13px;
+  color: var(--theia-descriptionForeground, #999);
+}
+
+.capability-inspector-divider {
+  border: none;
+  border-top: 1px solid var(--theia-editorWidget-border, #454545);
+  margin: 12px 0;
+}
+
+.capability-inspector-readme-toolbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 8px;
+}
+
+.capability-inspector-section-title {
+  font-size: 12px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  color: var(--theia-descriptionForeground, #999);
+}
+
+.capability-inspector-toggle {
+  display: flex;
+  gap: 2px;
+}
+
+.capability-toggle-btn {
+  padding: 2px 8px;
+  font-size: 11px;
+  background: transparent;
+  border: 1px solid var(--theia-input-border, #555);
+  color: var(--theia-sideBar-foreground, #ccc);
+  cursor: pointer;
+}
+
+.capability-toggle-btn.active {
+  background: var(--theia-button-background, #0e639c);
+  color: var(--theia-button-foreground, #fff);
+  border-color: transparent;
+}
+
+.capability-inspector-rendered-body {
+  line-height: 1.6;
+}
+
+.capability-inspector-rendered-body h1,
+.capability-inspector-rendered-body h2,
+.capability-inspector-rendered-body h3 {
+  margin-top: 16px;
+  margin-bottom: 8px;
+}
+
+.capability-inspector-rendered-body code {
+  background: var(--theia-textCodeBlock-background, #1e1e1e);
+  padding: 1px 4px;
+  border-radius: 3px;
+  font-family: monospace;
+}
+
+.capability-inspector-rendered-body pre {
+  background: var(--theia-textCodeBlock-background, #1e1e1e);
+  padding: 8px;
+  overflow-x: auto;
+  border-radius: 4px;
+}
+
+.capability-inspector-raw {
+  font-family: monospace;
+  font-size: 12px;
+  white-space: pre-wrap;
+  word-break: break-word;
+  background: var(--theia-textCodeBlock-background, #1e1e1e);
+  padding: 8px;
+  border-radius: 4px;
+}
+
+.capability-inspector-details {
+  margin-bottom: 12px;
+}
+
+.capability-inspector-meta {
+  margin-top: 8px;
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 12px;
+}
+
+.capability-inspector-meta .meta-key {
+  font-weight: 600;
+  padding: 3px 12px 3px 0;
+  color: var(--theia-descriptionForeground, #999);
+  white-space: nowrap;
+  vertical-align: top;
+}
+
+.capability-inspector-meta .meta-value {
+  padding: 3px 0;
+  word-break: break-all;
+}
+
+.capability-inspector-meta .meta-path {
+  font-family: monospace;
+  font-size: 11px;
+}
+
+.capability-inspector-refs {
+  margin-top: 12px;
+  font-size: 12px;
+}
+
+.refs-section {
+  margin-bottom: 8px;
+}
+
+.refs-label {
+  font-weight: 600;
+  color: var(--theia-descriptionForeground, #999);
+  margin-right: 6px;
+}
+
+.refs-list {
+  list-style: none;
+  margin: 4px 0 0 8px;
+  padding: 0;
+}
+
+.refs-list li {
+  padding: 1px 0;
+}
+
+.ref-included {
+  color: var(--theia-symbolIcon-referenceForeground, #75beff);
+  font-family: monospace;
+}
+
+.ref-external {
+  color: var(--theia-descriptionForeground, #999);
+  font-style: italic;
+}
+
+.ref-note {
+  font-size: 10px;
+  margin-left: 6px;
+  opacity: 0.7;
+}
+
+.capability-inspector-actions {
+  margin-top: 16px;
+}
