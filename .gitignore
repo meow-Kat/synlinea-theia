@@ -1,6 +1,36 @@
+# Dependencies
 node_modules/
+
+# Build artifacts
 lib/
 dist/
+out/
 .build/
-*.log
+
+# Theia build artifacts
+gen-webpack/
+plugins/
+.theia/
+
+# Webpack generated config
+webpack.config.js
+
+# Coverage
+coverage/
+*.lcov
+
+# TypeScript
+*.js.map
+*.d.ts.map
+
+# macOS
 .DS_Store
+
+# Editor
+.vscode/
+npm-debug.log*
+*.log
+
+# Environment
+.env
+.env.local
