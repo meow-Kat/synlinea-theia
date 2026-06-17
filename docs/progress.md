@@ -2,7 +2,36 @@
 > Hot tier. Live handoff + terse done log. Outcome summaries, NOT a copy of tasks.md checkmarks.
 > Per-task detail lives in the commit + the approved plan (`docs/plans/`) + ADRs (`decisions.md`).
 
-## Handoff (current) — v2 Capability x-ray panel DONE & green (VT1–VT10); verifier running; uncommitted
+## Handoff (current) — v3 Usage quota DONE & verified (UT1–UT10); verifier pass; uncommitted
+
+- 2026-06-17: **v3 complete, all checks green.** Hotkey-driven usage-monitor: `ctrlcmd+alt+u` → QuickInput Claude/Codex → opens terminal running the CLI + status-bar item shows that tool's session+weekly (2 numbers), 60s refresh, conditional N/A. `npm run build:browser` 0 errors, `npm run lint` exit 0, `npm test --workspace=@synlinea/usage-monitor` **26 passing**, start smoke HTTP 200. Data: Claude `/api/oauth/usage` (keychain token, 60s cache+429 backoff) + Codex newest session `rate_limits`. Docs: architecture + ADR-0003 + 2 conventions. **Not committed** (awaiting user). Build-loop fixes (main agent, trivial, reported): JSDoc `**/` closing comment, 2 unused imports, quick-pick `pick`→`showQuickPick`. Design note: initial "strip above terminal + startup auto-terminal + both tools" was superseded by the hotkey design after discussion. Residuals: UI hotkey/terminal/status-bar click-through browser-only (not exercised); oauth/usage undocumented+429+macOS-token = runtime fragility (graceful degrade in place).
+- ── earlier coder-phase detail below ──
+
+- 2026-06-17: **v3 source complete (coder phase).** `packages/usage-monitor/` created; `applications/browser/package.json` updated. UT1–UT7 source written (UT8 = build smoke by tester; UT9 = unit tests by tester; UT10 = architecture backfill by tester/maintainer).
+
+- 2026-06-17: **v3 source complete (coder phase).** `packages/usage-monitor/` created; `applications/browser/package.json` updated. UT1–UT7 source written (UT8 = build smoke by tester; UT9 = unit tests by tester; UT10 = architecture backfill by tester/maintainer).
+  - **UT1** Package skeleton: `packages/usage-monitor/` with `package.json` (deps: `@theia/core@1.72.3`, `@theia/terminal@1.72.3`, `tslib`), `tsconfig.json`, full `common/node/browser` source tree; `theiaExtensions` entry wired (`frontend`+`backend`). `@synlinea/usage-monitor: "*"` added to `applications/browser/package.json`.
+  - **UT2** Common types + JSON-RPC interface: `UsageWindow { tool, kind, percent, severity, resetsAt, label }`, `ToolUsage { tool, available, stale?, windows, planType?, currentSessionTokens? }`, `UsageService { getUsage(): Promise<ToolUsage[]> }`, `USAGE_SERVICE_PATH = '/services/usage-monitor'`.
+  - **UT3** `ClaudeUsageProvider` (node): reads macOS Keychain via `security find-generic-password -s "Claude Code-credentials" -w` → parses JSON → `.claudeAiOauth.accessToken`. GET `/api/oauth/usage` with confirmed headers. Prefers `limits[]` array for percent+severity+resetsAt; falls back to `five_hour`/`seven_day` top-level objects. 60s in-memory cache; 429/error → stale fallback. Token NEVER logged.
+  - **UT4** `CodexUsageProvider` (node): manual recursive walk finds latest `rollout-*.jsonl` under `~/.codex/sessions/**/` + `~/.codex/archived_sessions/**/`. Scans backward for last `rate_limits` line. primary→weekly, secondary→session (null → omit). Extracts `total_token_usage.total_tokens` as `currentSessionTokens`. No files → `available:false`. No external call.
+  - **UT5** `UsageServiceImpl` (node): aggregates both providers in `Promise.all`; exposes via `RpcConnectionHandler` at `/services/usage-monitor`; mirrors skill-manager RPC pattern exactly.
+  - **UT6+UT7 (revised 2026-06-17)** `UsageToolTerminalContribution` (browser): replaces old widget+contribution entirely.
+    - Command `usageMonitor.openToolTerminal` + keybinding `ctrlcmd+alt+u` via `CommandContribution` + `KeybindingContribution`.
+    - On invoke: `QuickInputService.pick([Claude, Codex])` → `TerminalService.newTerminal` + `open(area:'bottom')` → wait `onDidOpen` (R6, 3 s fallback) → `sendText("claude\n")` / `sendText("codex\n")`.
+    - Quota display (R5): `StatusBar.setElement` right-aligned; text `Claude  session 28%  weekly 81%⚠` (two numbers; N/A when unavailable/missing). Clicking status-bar item re-invokes command.
+    - 60 s `setInterval` auto-refresh, restarted on each new pick, cleared in `dispose()`.
+  - **Files deleted:** `usage-strip-widget.tsx`, `usage-strip-contribution.ts`.
+  - **Files created:** `usage-tool-terminal-contribution.ts`.
+  - **Files modified:** `usage-monitor-frontend-module.ts` (removed widget bindings; binds RPC proxy + new contribution only).
+- **UT9 written + package.json wired (tester + main agent, 2026-06-17):** `test/claude-usage-provider.spec.ts` (11 cases), `test/codex-usage-provider.spec.ts` (~14 cases incl. 2 `getUsage` $HOME-stub cases), `test/tsconfig.json`. Test devDeps added to `packages/usage-monitor/package.json` (`@types/chai`, `@types/mocha`, `chai@^4.5.0`, `mocha@^10.8.2`, `ts-node@^10.9.2`) + `"test"` script. All deps hoisted in root `node_modules` — no `npm install` needed. **Run:** `npm test --workspace=@synlinea/usage-monitor`
+- **Potentially uncertain compile points** (for tester to verify during UT8):
+  1. `QuickInputService` injection — bound by `@theia/monaco` `MonacoQuickInputService`; `@theia/monaco` is in `applications/browser/package.json`.
+  2. `StatusBar` injection — bound by `@theia/core` `frontend-application-module` via `bindStatusBar`. Standard pattern.
+  3. `KeybindingContribution` multi-bind — `bind(KeybindingContribution).toService(UsageToolTerminalContribution)` mirrors `CommonFrontendContribution` pattern.
+  4. `TerminalWidget.onDidOpen` shell-ready signal — if shell not found, 3 s timeout resolves and `sendText` still fires (may be dropped, non-fatal).
+  5. (unchanged) `child_process.exec` in `ClaudeUsageProvider` / `@types/node` devDep only — same as before, node-only code, types at build time.
+
+## Handoff (previous 2) — v2 Capability x-ray panel DONE & green (VT1–VT10); verifier running; uncommitted
 
 - 2026-06-17: **v2 complete, all checks green.** `npm run build:browser` 0 errors (root build:browser compiles packages first), `npm run lint` exit 0, `npm test --workspace=@synlinea/skill-manager` **13 passing**, start smoke HTTP 200 (no backend DI errors). docs backfilled (architecture Structure + ADR-0002 + 3 conventions). **Not committed** (awaiting user). Residuals: UI click-through browser-only (not done); relationship name-match precision (R1); subagents/toggle/plugins/Codex deferred to later cuts.
 - Detail of what was built (coder dispatch, VT1–VT7):
@@ -36,6 +65,7 @@
 - **NEXT**: (1) optional human click-through of open-md / md-preview / terminal in browser to fully close T8 DoD; (2) **commit** the scaffold on branch `v1-theia-scaffold` (awaiting user — not yet committed); (3) then next cut = first management widget plan (browse/search + edit/preview + toggle, Claude-only) per concept §10.
 
 ## Done log (newest first — one line; detail in commit / plan / ADR)
+- **v3 Usage quota** — `@synlinea/usage-monitor` hotkey-driven (Cmd/Ctrl+Alt+U → pick Claude/Codex → open CLI terminal + status-bar session+weekly). Claude /api/oauth/usage (keychain) + Codex session files. build/lint/start green, 26 unit tests. ADR-0003. plan v3-usage-quota-panel.md. 2026-06-17.
 - **v2 Capability x-ray panel** — first custom Theia extension `@synlinea/skill-manager` (two-layer Global/Project nav × Skills+Rules, extension-page inspector w/ rendered readme, Level-B relationships). build/lint/start green, 13 unit tests. ADR-0002. plan v2-capability-xray-panel.md. 2026-06-17.
 - **v1 Theia browser shell** — scaffold T1–T10 done + verified (build/start/lint green, port 3000 / HTTP 200). npm+Lerna, @theia/*@1.72.3 minimal set, no ai-*/plugin-ext/electron. 2026-06-17.
 - **Bootstrap** — memory scaffold (docs/ tiers, CLAUDE.md Lean, ADR-0001 Theia, glossary seeded from concept.md). 2026-06-15.

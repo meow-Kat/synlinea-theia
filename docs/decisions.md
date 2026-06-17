@@ -17,6 +17,33 @@
 ## Entries
 <!-- newest first -->
 
+## ADR-0003: Usage quota data sources + hotkey-driven interaction (v3 usage-monitor)
+**Date**: 2026-06-17
+**Status**: accepted
+
+### Context
+Need to show Claude Code + Codex usage (current session + weekly limit). Investigation (with live probes) found the two tools expose quota very differently, and the desired UX evolved through discussion.
+
+### Decision
+- **Data sources (asymmetric, both verified):**
+  - **Claude**: quota is NOT in local files and NOT in `claude -p` JSON output. It comes from the undocumented `GET https://api.anthropic.com/api/oauth/usage` endpoint (the same one Claude Code's `/usage` + statusline use). Returns `five_hour`/`seven_day` utilization% + `limits[]` (percent/severity/resets_at). Auth = OAuth token from macOS Keychain `Claude Code-credentials` → `.claudeAiOauth.accessToken`. Headers: Bearer + `anthropic-beta: oauth-2025-04-20` + `anthropic-version: 2023-06-01`. **429-prone** → 60s cache + backoff (serve last value as stale). The endpoint does NOT consume token quota (status read, not a model call).
+  - **Codex**: quota IS in local files — newest `~/.codex/sessions/**/rollout-*.jsonl` (+archived), last `rate_limits` event; `primary` (window_minutes 10080) = weekly, `secondary` = session. Zero cost.
+- **Normalized schema**: both → `UsageWindow { tool, kind:'session'|'weekly', percent, severity, resetsAt }` + `ToolUsage { tool, available, windows, ... }`. Mapping: Claude session=five_hour / weekly=seven_day; Codex session=secondary / weekly=primary.
+- **Interaction (evolved to hotkey-driven)**: command `usageMonitor.openToolTerminal` + keybinding `ctrlcmd+alt+u` → QuickInput pick Claude/Codex → open a terminal running that CLI + show THAT tool's session+weekly (2 numbers) in a **status-bar item**; 60s auto-refresh; conditional (unavailable → N/A). Replaced the initial "always-on strip above terminal + startup auto-terminal + show both" design.
+- **No per-terminal process detection**: user picks the tool via QuickInput rather than the app sniffing the terminal's foreground process (`ps` on pty — fragile/cross-platform). 
+- **Backend node service** does keychain+endpoint+file I/O, exposed via JSON-RPC; frontend never touches the token.
+
+### Consequences
+- Claude quota depends on an undocumented endpoint + Keychain token → must degrade gracefully (token expiry/401, 429, endpoint change → available:false). macOS-only token read for v1 (Linux `~/.claude/.credentials.json` deferred).
+- Status-bar surface sidesteps the invasive "non-tab strip above the terminal" layout (initial R5 pain).
+- Privacy/ToS: reads OAuth token + hits internal endpoint (same as Claude Code itself); token kept in memory only, never logged/persisted.
+
+### Alternatives considered
+- Token aggregation from transcripts / cost($) — different feature (historical usage), deferred.
+- `claude -p --output-format json` for Claude quota — probed: returns per-call usage + cost but NO rate-limit/weekly data. Rejected.
+- PTY-scraping interactive `/usage` — too fragile. Rejected.
+- Daily trend — Claude endpoint gives only current %; would require self-persisting snapshots. Deferred.
+
 ## ADR-0002: Capability discovery locations + relationship data model (v2 skill-manager)
 **Date**: 2026-06-17
 **Status**: accepted

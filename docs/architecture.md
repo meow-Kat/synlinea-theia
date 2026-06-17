@@ -42,6 +42,8 @@ synlinea-theia/
 
 **v2 extension `skill-manager` (Capability x-ray, Claude Code only):** scans Skills (`~/.claude/skills/*/SKILL.md` + project `.claude/skills/`) and Rules (`~/.claude/CLAUDE.md` + project `CLAUDE.md`); two-layer (Global/Project) tree + right-side inspector with default-rendered readme + relationships (Level B: forward refsOut + inbound refsIn, scoped to skill+rule; subagent refs flagged not-included). Backend logic exposed to frontend via Theia JSON-RPC. **Subagents, toggle, plugins-source, Codex deferred.**
 
+**v3 extension `usage-monitor` (Usage quota, hotkey-driven):** command `usageMonitor.openToolTerminal` + keybinding `ctrlcmd+alt+u` → QuickInput pick Claude/Codex → opens a terminal running that CLI + shows that tool's quota (current session + weekly utilization%, 2 numbers) in a **status-bar item**, 60s auto-refresh. Data via Theia JSON-RPC node service: **ClaudeUsageProvider** (reads macOS Keychain `Claude Code-credentials` → `.claudeAiOauth.accessToken` → `GET https://api.anthropic.com/api/oauth/usage`; 60s cache + 429 backoff; token never logged/persisted) + **CodexUsageProvider** (newest `~/.codex/sessions/**/rollout-*.jsonl` → last `rate_limits` primary=weekly/secondary=session + token usage). Conditional (unavailable → N/A). → ADR-0003. **Per-terminal process detection, daily trend, cost aggregation, non-macOS token deferred.**
+
 **Bundled `@theia/*` (1.72.3, minimal set):** core, editor, monaco, **preview** (markdown/HTML preview — NB: `@theia/markdown` does not exist at 1.72.3), terminal (node-pty prebuilt; darwin-arm64 verified), filesystem, workspace, navigator, messages, preferences.
 
 **Deliberately excluded (per plan; each is a later additive task, no architecture change):** `@theia/ai-*` (native AI framework — AI runs via `claude`/`codex` in the built-in terminal instead), `@theia/plugin-ext*` (Open VSX runtime plugins), electron packaging.
@@ -50,5 +52,8 @@ synlinea-theia/
 
 ## External dependencies
 - Services / APIs: **Claude Code CLI** + **Codex CLI** (the two integration targets — driven from the built-in terminal); **MCP** as the common cross-tool extension substrate.
-- Required env vars: TBD
+- **Usage data sources (v3 usage-monitor):**
+  - Claude quota: `GET https://api.anthropic.com/api/oauth/usage` (undocumented internal endpoint Claude Code's own `/usage` uses; returns five_hour/seven_day utilization% + limits[]; **429-prone** → cache+backoff). Auth = OAuth token from macOS Keychain service `Claude Code-credentials` (`.claudeAiOauth.accessToken`).
+  - Codex quota: local files `~/.codex/sessions/**/rollout-*.jsonl` (+ archived) — last `rate_limits` event (`primary` window_minutes 10080 = weekly).
+- Required env vars: none. (Claude token read from Keychain, not env.)
 - Other: reference implementation + reusable domain logic source = `/Users/a020121/projects/cli-ide` (Vue Synlinea, T1–T10). See `docs/concept.md`.

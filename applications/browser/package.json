@@ -13,7 +13,8 @@
     "@theia/navigator": "1.72.3",
     "@theia/messages": "1.72.3",
     "@theia/preferences": "1.72.3",
-    "@synlinea/skill-manager": "*"
+    "@synlinea/skill-manager": "*",
+    "@synlinea/usage-monitor": "*"
   },
   "devDependencies": {
     "@theia/cli": "1.72.3"

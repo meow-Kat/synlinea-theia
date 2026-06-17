@@ -83,6 +83,10 @@ globalThis.extensionInfo = [
     {
         "name": "@synlinea/skill-manager",
         "version": "0.0.0"
+    },
+    {
+        "name": "@synlinea/usage-monitor",
+        "version": "0.0.0"
     }
 ];
 

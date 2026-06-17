@@ -76,6 +76,7 @@ module.exports = async (port, host, argv) => {
         await load(require('@theia/messages/lib/node/messages-backend-module'));
         await load(require('@theia/preferences/lib/node/preference-backend-module'));
         await load(require('@synlinea/skill-manager/lib/node/skill-manager-backend-module'));
+        await load(require('@synlinea/usage-monitor/lib/node/usage-monitor-backend-module'));
         startupLog('modules loaded');
         return await start(port, host, argv);
     } catch (error) {
