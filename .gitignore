@@ -34,3 +34,7 @@ npm-debug.log*
 # Environment
 .env
 .env.local
+
+# Local Docs and Claude Context
+claude.md
+docs/
