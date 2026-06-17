@@ -36,5 +36,5 @@ npm-debug.log*
 .env.local
 
 # Local Docs and Claude Context
-claude.md
+CLAUDE.md
 docs/
