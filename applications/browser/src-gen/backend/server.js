@@ -75,6 +75,18 @@ module.exports = async (port, host, argv) => {
         await load(require('@theia/navigator/lib/node/navigator-backend-module'));
         await load(require('@theia/messages/lib/node/messages-backend-module'));
         await load(require('@theia/preferences/lib/node/preference-backend-module'));
+        await load(require('@theia/scm/lib/node/scm-backend-module'));
+        await load(require('@theia/output/lib/node/output-backend-module'));
+        await load(require('@theia/ai-core/lib/node/ai-core-backend-module'));
+        await load(require('@theia/ai-mcp/lib/node/mcp-backend-module'));
+        await load(require('@theia/task/lib/node/task-backend-module'));
+        await load(require('@theia/test/lib/node/test-backend-module'));
+        await load(require('@theia/debug/lib/node/debug-backend-module'));
+        await load(require('@theia/editor-preview/lib/node/editor-preview-backend-module'));
+        await load(require('@theia/notebook/lib/node/notebook-backend-module'));
+        await load(require('@theia/search-in-workspace/lib/node/search-in-workspace-backend-module'));
+        await load(require('@theia/plugin-ext/lib/plugin-ext-backend-module'));
+        await load(require('@theia/plugin-ext-vscode/lib/node/plugin-vscode-backend-module'));
         await load(require('@synlinea/skill-manager/lib/node/skill-manager-backend-module'));
         await load(require('@synlinea/usage-monitor/lib/node/usage-monitor-backend-module'));
         startupLog('modules loaded');

@@ -81,6 +81,82 @@ globalThis.extensionInfo = [
         "version": "1.72.3"
     },
     {
+        "name": "@theia/scm",
+        "version": "1.72.3"
+    },
+    {
+        "name": "@theia/scm-extra",
+        "version": "1.72.3"
+    },
+    {
+        "name": "@theia/output",
+        "version": "1.72.3"
+    },
+    {
+        "name": "@theia/ai-core",
+        "version": "1.72.3"
+    },
+    {
+        "name": "@theia/ai-mcp",
+        "version": "1.72.3"
+    },
+    {
+        "name": "@theia/bulk-edit",
+        "version": "1.72.3"
+    },
+    {
+        "name": "@theia/callhierarchy",
+        "version": "1.72.3"
+    },
+    {
+        "name": "@theia/console",
+        "version": "1.72.3"
+    },
+    {
+        "name": "@theia/terminal-manager",
+        "version": "1.72.3"
+    },
+    {
+        "name": "@theia/task",
+        "version": "1.72.3"
+    },
+    {
+        "name": "@theia/test",
+        "version": "1.72.3"
+    },
+    {
+        "name": "@theia/debug",
+        "version": "1.72.3"
+    },
+    {
+        "name": "@theia/editor-preview",
+        "version": "1.72.3"
+    },
+    {
+        "name": "@theia/notebook",
+        "version": "1.72.3"
+    },
+    {
+        "name": "@theia/search-in-workspace",
+        "version": "1.72.3"
+    },
+    {
+        "name": "@theia/timeline",
+        "version": "1.72.3"
+    },
+    {
+        "name": "@theia/typehierarchy",
+        "version": "1.72.3"
+    },
+    {
+        "name": "@theia/plugin-ext",
+        "version": "1.72.3"
+    },
+    {
+        "name": "@theia/plugin-ext-vscode",
+        "version": "1.72.3"
+    },
+    {
         "name": "@synlinea/skill-manager",
         "version": "0.0.0"
     },

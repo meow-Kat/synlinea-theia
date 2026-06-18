@@ -13,6 +13,10 @@
     "@theia/navigator": "1.72.3",
     "@theia/messages": "1.72.3",
     "@theia/preferences": "1.72.3",
+    "@theia/scm": "1.72.3",
+    "@theia/scm-extra": "1.72.3",
+    "@theia/plugin-ext": "1.72.3",
+    "@theia/plugin-ext-vscode": "1.72.3",
     "@synlinea/skill-manager": "*",
     "@synlinea/usage-monitor": "*"
   },
@@ -20,9 +24,15 @@
     "@theia/cli": "1.72.3"
   },
   "scripts": {
-    "build:browser": "theia build --mode development",
-    "start:browser": "theia start",
+    "build:browser": "theia download:plugins && theia build --mode development",
+    "download:plugins": "theia download:plugins",
+    "start:browser": "theia start --plugins=local-dir:plugins",
     "clean": "theia clean"
+  },
+  "theiaPluginsDir": "plugins",
+  "theiaPlugins": {
+    "vscode.git": "https://open-vsx.org/api/vscode/git/1.95.3/file/vscode.git-1.95.3.vsix",
+    "vscode.git-base": "https://open-vsx.org/api/vscode/git-base/1.95.3/file/vscode.git-base-1.95.3.vsix"
   },
   "theia": {
     "target": "browser",

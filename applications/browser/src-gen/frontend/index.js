@@ -102,6 +102,25 @@ module.exports = (async () => {
         await load(container, import('@theia/messages/lib/browser/messages-frontend-module'));
         await load(container, import('@theia/userstorage/lib/browser/user-storage-frontend-module'));
         await load(container, import('@theia/preferences/lib/browser/preference-frontend-module'));
+        await load(container, import('@theia/scm/lib/browser/scm-frontend-module'));
+        await load(container, import('@theia/scm-extra/lib/browser/scm-extra-frontend-module'));
+        await load(container, import('@theia/output/lib/browser/output-frontend-module'));
+        await load(container, import('@theia/ai-core/lib/browser/ai-core-frontend-module'));
+        await load(container, import('@theia/ai-mcp/lib/browser/mcp-frontend-module'));
+        await load(container, import('@theia/bulk-edit/lib/browser/bulk-edit-frontend-module'));
+        await load(container, import('@theia/callhierarchy/lib/browser/callhierarchy-frontend-module'));
+        await load(container, import('@theia/console/lib/browser/console-frontend-module'));
+        await load(container, import('@theia/terminal-manager/lib/browser/terminal-manager-frontend-module'));
+        await load(container, import('@theia/task/lib/browser/task-frontend-module'));
+        await load(container, import('@theia/test/lib/browser/view/test-view-frontend-module'));
+        await load(container, import('@theia/debug/lib/browser/debug-frontend-module'));
+        await load(container, import('@theia/editor-preview/lib/browser/editor-preview-frontend-module'));
+        await load(container, import('@theia/notebook/lib/browser/notebook-frontend-module'));
+        await load(container, import('@theia/search-in-workspace/lib/browser/search-in-workspace-frontend-module'));
+        await load(container, import('@theia/timeline/lib/browser/timeline-frontend-module'));
+        await load(container, import('@theia/typehierarchy/lib/browser/typehierarchy-frontend-module'));
+        await load(container, import('@theia/plugin-ext/lib/plugin-ext-frontend-module'));
+        await load(container, import('@theia/plugin-ext-vscode/lib/browser/plugin-vscode-frontend-module'));
         await load(container, import('@synlinea/skill-manager/lib/browser/skill-manager-frontend-module'));
         await load(container, import('@synlinea/usage-monitor/lib/browser/usage-monitor-frontend-module'));
         
